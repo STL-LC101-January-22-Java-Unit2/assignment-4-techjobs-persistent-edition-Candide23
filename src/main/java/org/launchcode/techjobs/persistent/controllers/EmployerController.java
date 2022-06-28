@@ -16,18 +16,14 @@ import java.util.Optional;
 public class EmployerController {
 
     @Autowired
-    EmployerRepository employerRepository;
+    private EmployerRepository employerRepository;
 
-
-
-    @GetMapping
+    @GetMapping()
     public String displayAllEmployers(Model model) {
         model.addAttribute("title","All Employers");
         model.addAttribute("employers",employerRepository.findAll());
-        return " employers/index";
+        return "employers/index";
     }
-
-
 
     @GetMapping("add")
     public String displayAddEmployerForm(Model model) {
@@ -38,7 +34,6 @@ public class EmployerController {
     @PostMapping("add")
     public String processAddEmployerForm(@ModelAttribute @Valid Employer newEmployer,
                                     Errors errors, Model model) {
-
         if (errors.hasErrors()) {
             return "employers/add";
         }

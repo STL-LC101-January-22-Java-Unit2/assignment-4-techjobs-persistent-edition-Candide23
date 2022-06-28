@@ -2,6 +2,7 @@ package org.launchcode.techjobs.persistent.controllers;
 
 
 import org.launchcode.techjobs.persistent.models.Skill;
+import org.launchcode.techjobs.persistent.models.data.JobRepository;
 import org.launchcode.techjobs.persistent.models.data.SkillRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,28 +18,27 @@ import java.util.Optional;
 public class SkillController {
 
     @Autowired
-    SkillRepository skillRepository;
+    private SkillRepository skillRepository;
 
     @GetMapping
     public String displayAllSkills(Model model) {
-        model.addAttribute("title", "All Skills");
         model.addAttribute("skills", skillRepository.findAll());
         return "skills/index";
     }
 
     @GetMapping("add")
     public String displayAddSkillForm(Model model) {
+        model.addAttribute("title", "All Skills");
         model.addAttribute(new Skill());
         return"skills/add";
     }
 
     @PostMapping("add")
-    public String processAddEmployerForm( @ModelAttribute @Valid Skill newSkill, Errors errors, Model model) {
+    public String processAddSkillForm( @ModelAttribute @Valid Skill newSkill, Errors errors, Model model) {
 
         if(errors.hasErrors()) {
             return "skills/add";
         }
-
         skillRepository.save(newSkill);
         return "redirect:";
     }
